@@ -139,4 +139,3 @@ python main.py smallpublicaccount --followers-path data/followers_smallpublicacc
 - Safer DM templates with personalization to reduce spam signals.
 - SQLite-backed storage for better auditability and analytics.
 - Support for interactive input (asking username and message at runtime).
-

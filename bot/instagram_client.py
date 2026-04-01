@@ -63,15 +63,20 @@ class InstagramClient:
 
         if not self._is_logged_in():
             try:
-                self._login_with_retry(relogin=True)
+                self._login_with_retry(relogin=False)
             except ig_exc.ChallengeRequired:
                 self._logger.warning("Login challenge required")
                 self.client.challenge_resolve(self._username)
-                self._login_with_retry(relogin=True)
+                self._login_with_retry(relogin=False)
             except ig_exc.TwoFactorRequired:
                 self._logger.warning("Two-factor required")
                 code = input("Enter the 2FA code: ")
                 self.client.two_factor_login(self._username, self._password, code)
+            except ig_exc.ReloginAttemptExceeded:
+                self._logger.error(
+                    "Relogin attempts exceeded. Delete session files and retry later.",
+                )
+                raise
             except ig_exc.BadPassword:
                 self._logger.error(
                     "Bad password or IP blocked. Use a fresh test account + clean IP.",
