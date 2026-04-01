@@ -140,11 +140,3 @@ python main.py smallpublicaccount --followers-path data/followers_smallpublicacc
 - SQLite-backed storage for better auditability and analytics.
 - Support for interactive input (asking username and message at runtime).
 
-## Submission Checklist
-- [ ] Credentials stored in `.env`
-- [ ] Dry-run successful on a small account
-- [ ] Verified scraping output in `data/`
-- [ ] Tested follow + DM on a small sample
-- [ ] Logs captured in `logs/run.log`
-- [ ] Session reuse confirmed across runs
-- [ ] README updated with warnings and learnings
