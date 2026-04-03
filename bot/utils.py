@@ -98,11 +98,6 @@ def normalize_user(user: Any) -> Dict[str, str]:
 
 
 def build_retryable_exceptions() -> tuple[type[BaseException], ...]:
-    try:
-        from instagrapi import exceptions as ig_exc
-    except Exception:
-        ig_exc = None
-
     extra: List[type[BaseException]] = []
     try:
         import requests
@@ -125,17 +120,7 @@ def build_retryable_exceptions() -> tuple[type[BaseException], ...]:
     except Exception:
         pass
 
-    names = [
-        "RateLimitError",
-        "PleaseWaitFewMinutes",
-        "ClientError",
-        "LoginRequired",
-        "ChallengeRequired",
-        "NetworkError",
-    ]
     excs: List[type[BaseException]] = []
-    if ig_exc:
-        excs.extend([getattr(ig_exc, name) for name in names if hasattr(ig_exc, name)])
     excs.extend(extra)
     return tuple(excs) if excs else (Exception,)
 

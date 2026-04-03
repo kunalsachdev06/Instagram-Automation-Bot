@@ -55,9 +55,9 @@ class ActionRunner:
                 continue
 
             try:
-                self._follow_user(int(user["id"]))
+                self._follow_user(user["id"])
                 sleep_with_jitter(self._settings.min_delay, self._settings.max_delay)
-                self._send_dm(int(user["id"]), message)
+                self._send_dm(user["id"], message)
             except Exception as exc:
                 if is_rate_limited_429(exc):
                     self._logger.error(
@@ -97,8 +97,8 @@ class ActionRunner:
         stop=stop_after_attempt(4),
         reraise=True,
     )
-    def _follow_user(self, user_id: int) -> None:
-        self._client.follow_user(user_id)
+    def _follow_user(self, username: str) -> None:
+        self._client.follow_user(username)
 
     @retry(
         retry=retry_if_exception(is_retryable_exception),
@@ -106,5 +106,5 @@ class ActionRunner:
         stop=stop_after_attempt(4),
         reraise=True,
     )
-    def _send_dm(self, user_id: int, message: str) -> None:
-        self._client.send_dm(user_id, message)
+    def _send_dm(self, username: str, message: str) -> None:
+        self._client.send_dm(username, message)

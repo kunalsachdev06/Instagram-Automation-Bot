@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import os
+import sys
 from pathlib import Path
 
 from bot.actions import ActionRunner
-from bot.instagram_client import InstagramClient
+from bot.selenium_client import SeleniumInstagramClient
 from bot.scraper import FollowerScraper
 from bot.utils import configure_logging
 from config.settings import load_settings, override_settings
@@ -29,6 +31,9 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
+    print(f"__file__: {__file__}")
+    print(f"cwd: {os.getcwd()}")
+    print(f"python: {sys.executable}")
     parser = build_parser()
     args = parser.parse_args()
 
@@ -44,7 +49,7 @@ def main() -> None:
     logger = configure_logging(settings.log_level, settings.logs_dir)
     logger.info("Starting run", extra={"target": args.target_username})
 
-    client = InstagramClient(settings, logger)
+    client = SeleniumInstagramClient(settings, logger)
     client.login()
 
     followers_path = args.followers_path
